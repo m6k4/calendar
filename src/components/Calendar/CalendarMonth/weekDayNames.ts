@@ -32,7 +32,7 @@ export default
   },
   {
     id: 6,
-    number: 7,
+    number: 0,
     shortName: 'Sun.',
   },
 ];
