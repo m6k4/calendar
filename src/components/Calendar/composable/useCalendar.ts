@@ -14,7 +14,7 @@ export default function useCalendar() {
     let firstDayOfPreviousMonthShowed = 0;
 
     const firstDayDate = computed(() => {
-        return moment().set('month', selectedMonth.value).startOf('month');
+        return moment(currentDate).set('month', selectedMonth.value).startOf('month');
       });
       
       const firstDayNumber = computed(() => {
