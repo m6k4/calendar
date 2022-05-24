@@ -6,7 +6,9 @@
         aria-hidden="true"
         @click="prevMonth"
       />
-      {{ monthDetails?.engName }} {{ currentDate.year() }}
+      <div class="CalendarMonth__header__title">
+        {{ monthDetails?.engName }} {{ currentDate.year() }}
+      </div>
       <i  
         class="fa fa-chevron-right CalendarMonth__header__icon" 
         aria-hidden="true"
@@ -20,7 +22,7 @@
         :day="dayElement.dayNumber"
         :is-active="dayElement.isActive"
         :current-day="currentDay"
-        :is-current-month="moment().month() === selectedMonth"
+        :is-current-month="moment().month() === selectedMonth && moment().year() === currentDate.year()"
       >
         <template #title>
           {{ weekDayNames.find((day) => day.id === dayElement.id)?.shortName }}
@@ -73,6 +75,12 @@ prepareCalendarMonth();
   &__header
     font-size: 20px
     margin-bottom: 10px
+    display: flex
+    flex-direction: row
+    justify-content: center
+
+    &__title
+      min-width: 200px
 
     &__icon
       cursor: pointer
