@@ -8,10 +8,16 @@
       :class="{ 'CalendarItem__box--inactive': !isActive }"
     >
       <label
-        class="CalendarItem__day"
-        :class="{ 'CalendarItem__day--current' : currentDay === day && isCurrentMonth }"
+        class="CalendarItem__header"
       >
-        {{ day }}
+        <span 
+          role="button"
+          class="CalendarItem__content"
+          :class="{ 'CalendarItem__content--current' : currentDay === day && isCurrentMonth }"
+          @click="$emit('showNewEventModal', {day})"
+        >
+          {{ day }}  
+        </span>
       </label>
     </div>
   </div>
@@ -19,9 +25,10 @@
 
 <script setup lang="ts">
 
-
 // eslint-disable-next-line no-undef
-const props = defineProps({
+defineEmits(['showNewEventModal']);
+// eslint-disable-next-line no-undef
+defineProps({
   day: {
     type: Number,
     required: true,
@@ -58,13 +65,27 @@ const props = defineProps({
     &--inactive
       color: lighten(grey, 20%)
 
-  &__day
-    &--current
-      border: 1px solid blue
-      background: blue
-      color: #fff
-      padding: 4px
+  &__header
+    display: flex
+    justify-content: center
+    align-items: center
+
+  &__content
+    padding: 8px
+    width: 40px
+    
+    &:hover
+      cursor: pointer
+      background: lighten(gray, 45%)
       border-radius: 50%
 
+    &--current
+      background: #5461c4
+      color: #fff
+      border-radius: 50%
+      &:hover
+        cursor: pointer
+        background: lighten(#5461c4, 20%)
+        border-radius: 50%
 
 </style>

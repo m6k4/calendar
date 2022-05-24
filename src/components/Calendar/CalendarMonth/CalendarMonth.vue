@@ -23,6 +23,7 @@
         :is-active="dayElement.isActive"
         :current-day="currentDay"
         :is-current-month="moment().month() === selectedMonth && moment().year() === currentDate.year()"
+        @show-new-event-modal="$emit('showNewEventModal', $event)"
       >
         <template #title>
           {{ weekDayNames.find((day) => day.id === dayElement.id)?.shortName }}
@@ -38,6 +39,9 @@ import weekDayNames from '../weekDayNames';
 import CalendarItem from './CalendarItem/CalendarItem.vue';
 import useCalendar from '../composable/useCalendar';
 
+// eslint-disable-next-line no-undef
+defineEmits(['showNewEventModal']);
+
 const {
   selectedMonth,
   currentDate,
@@ -48,6 +52,7 @@ const {
   prevMonth,
   nextMonth
 } = useCalendar();
+
 
 prepareCalendarMonth();
 
@@ -84,9 +89,9 @@ prepareCalendarMonth();
 
     &__icon
       cursor: pointer
-      color: grey
+      color: #bebfce
       font-size: 20px
       &:hover
-        color: blue
+        color: #5461c4
 
 </style>
