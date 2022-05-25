@@ -13,7 +13,7 @@
         <span 
           role="button"
           class="CalendarItem__content"
-          :class="{ 'CalendarItem__content--current' : currentDay === day && isCurrentMonth }"
+          :class="{ 'CalendarItem__content--current' : isToday }"
           @click="$emit('showNewEventModal', {day})"
         >
           {{ day }}  
@@ -24,11 +24,13 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment';
+import { computed } from 'vue';
 
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal']);
 // eslint-disable-next-line no-undef
-defineProps({
+const props = defineProps({
   day: {
     type: Number,
     required: true,
@@ -37,16 +39,16 @@ defineProps({
     type: Boolean,
     required: true,
   },
-  currentDay: {
-    type: Number,
+  momentDate: {
+    type: Object,
     required: true,
-  },
-   isCurrentMonth: {
-    type: Boolean,
-    required: false,
   },
   });
 
+//isToday
+const isToday = computed(() => {
+  return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
+});
 </script>
 
 <style lang="sass">

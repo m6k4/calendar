@@ -21,8 +21,7 @@
         :key="dayElement.id"
         :day="dayElement.dayNumber"
         :is-active="dayElement.isActive"
-        :current-day="currentDay"
-        :is-current-month="moment().month() === selectedMonth && moment().year() === currentDate.year()"
+        :moment-date="dayElement.momentDate"
         @show-new-event-modal="$emit('showNewEventModal', $event)"
       >
         <template #title>
@@ -34,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment';
 import weekDayNames from '../weekDayNames';
 import CalendarItem from './CalendarItem/CalendarItem.vue';
 import useCalendar from '../composable/useCalendar';
@@ -43,10 +41,8 @@ import useCalendar from '../composable/useCalendar';
 defineEmits(['showNewEventModal']);
 
 const {
-  selectedMonth,
   currentDate,
   monthDaysArray,
-  currentDay,
   monthDetails,
   prepareCalendarMonth,
   prevMonth,

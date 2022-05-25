@@ -28,10 +28,6 @@ export default function useCalendar() {
       const daysInMonthCount = computed(() => {
         return currentDate.set('month', selectedMonth.value).daysInMonth();
       });
-      
-      const currentDay = computed(() => {
-        return moment().date();
-      });
 
       const firstDayDetails = computed(() => {
         return weekDayNames.find((day) => day.number === firstDayNumber.value);
@@ -39,12 +35,12 @@ export default function useCalendar() {
 
       const prepareCurrentMonthObject = () => {
         for (let i = 0; i < totalDaysSlots; i += 1) {
+            const dayNumber = checkIfDayInSlotActive(i) ? i - firstDayIndex + 1 : 0;
             const exampleObject = {
               id: i,
-              dayNumber: checkIfDayInSlotActive(i)
-                ? i - firstDayIndex + 1
-                : 0,
+              dayNumber: dayNumber,
               isActive: checkIfDayInSlotActive(i),
+              momentDate: moment(currentDate).set('date', dayNumber),
             };
             monthDaysArray.value.push(exampleObject);
           }
@@ -56,9 +52,11 @@ export default function useCalendar() {
             if (!monthDaysArray.value[i].isActive) {
               if (i < daysInMonthCount.value) {
                 monthDaysArray.value[i].dayNumber = firstDayOfPreviousMonthShowed + i;
+                monthDaysArray.value[i].momentDate = moment(currentDate).subtract(1, 'months').set('date', firstDayOfPreviousMonthShowed + i)
               } else {
                 indexForNextMonthDays += 1;
                 monthDaysArray.value[i].dayNumber = indexForNextMonthDays;
+                monthDaysArray.value[i].momentDate = moment(currentDate).add(1, 'months').set('date', indexForNextMonthDays)
               }
             }
           }
@@ -79,23 +77,19 @@ export default function useCalendar() {
       }
 
       const prevMonth = () => {
-          console.log(currentDate);
         selectedMonth.value = currentDate.set('month', selectedMonth.value).subtract(1, 'months').month();
         prepareCalendarMonth();
       }
       
       const nextMonth = () => {
-        console.log(currentDate);
         selectedMonth.value = currentDate.set('month', selectedMonth.value).add(1, 'months').month();
         prepareCalendarMonth();
       }
 
 
       return {
-        selectedMonth,
         currentDate,
         monthDaysArray,
-        currentDay,
         monthDetails,
         prepareCalendarMonth,
         prevMonth,

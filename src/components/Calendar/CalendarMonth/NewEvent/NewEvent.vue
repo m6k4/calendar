@@ -11,8 +11,8 @@
       placeholder="event name"
     >
     <button
-      @click="addEvent"
       class="w-full p-2 rounded border border-transparent border-gray-300 focus:outline-none hover:scale-105 focus:border-gray-500 mt-auto bg-purple-500 text-white focus:bg-purple-600"
+      @click="addEvent"
     >
       Add new event
     </button> 
