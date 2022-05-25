@@ -36,11 +36,12 @@ export default function useCalendar() {
       const prepareCurrentMonthObject = () => {
         for (let i = 0; i < totalDaysSlots; i += 1) {
             const dayNumber = checkIfDayInSlotActive(i) ? i - firstDayIndex + 1 : 0;
-            const exampleObject = {
+            const exampleObject: SingleDay = {
               id: i,
               dayNumber: dayNumber,
               isActive: checkIfDayInSlotActive(i),
               momentDate: moment(currentDate).set('date', dayNumber),
+              events: []
             };
             monthDaysArray.value.push(exampleObject);
           }

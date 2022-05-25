@@ -22,6 +22,7 @@
         :day="dayElement.dayNumber"
         :is-active="dayElement.isActive"
         :moment-date="dayElement.momentDate"
+        :events="dayElement.events"
         @show-new-event-modal="$emit('showNewEventModal', $event)"
       >
         <template #title>
@@ -36,9 +37,19 @@
 import weekDayNames from '../weekDayNames';
 import CalendarItem from './CalendarItem/CalendarItem.vue';
 import useCalendar from '../composable/useCalendar';
+import { Event } from '../../../types/types';
+import { PropType, watch } from 'vue';
+import useEvents from '../composable/useEvents';
 
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal']);
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  eventsList: {
+    type: Object as PropType<Array<Event>>,
+    required: true,
+  },
+});
 
 const {
   currentDate,
@@ -49,6 +60,15 @@ const {
   nextMonth
 } = useCalendar();
 
+const {
+  fillCalendarWithEvents,
+} = useEvents();
+
+
+watch(monthDaysArray, () => {
+  console.log('TESt');
+  fillCalendarWithEvents(monthDaysArray.value);
+});
 
 prepareCalendarMonth();
 

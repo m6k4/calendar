@@ -1,8 +1,5 @@
 <template>
   <div class="CalendarItem">
-    <div class="CalendarItem__title">
-      <slot name="title" />
-    </div>
     <div
       class="CalendarItem__box"
       :class="{ 'CalendarItem__box--inactive': !isActive }"
@@ -16,16 +13,29 @@
           :class="{ 'CalendarItem__content--current' : isToday }"
           @click="$emit('showNewEventModal', {day})"
         >
-          {{ day }}  
+          {{ day }}
         </span>
       </label>
+      <div class="CalendarItem__events">
+        <div
+          v-for="event in events"
+          :key="event.uuid"
+          class="CalendarItem__event"
+          :style="`background:${event.color}`"
+        >
+          <span class="CalendarItem__event__title">
+            {{ event.name }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment';
-import { computed } from 'vue';
+import { computed, PropType } from 'vue';
+import { Event } from '../../../../types/types';
 
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal']);
@@ -43,6 +53,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  events: {
+    type: Object as PropType<Array<Event>>,
+    required: true,
+  },
   });
 
 //isToday
@@ -56,25 +70,23 @@ const isToday = computed(() => {
   border-top: 1px solid grey
   border-right: 1px solid grey
 
-  &__title
-    margin-bottom: 10px
-    color: lighten(grey, 20%)
-
   &__box
     width: 100%
-    height: 100px
+    height: 110px
 
     &--inactive
       color: lighten(grey, 20%)
 
   &__header
+    margin-top: 2px
     display: flex
     justify-content: center
     align-items: center
 
   &__content
-    padding: 8px
-    width: 40px
+    padding: 4px
+    width: 30px
+    font-size: 13px
     
     &:hover
       cursor: pointer
@@ -89,5 +101,14 @@ const isToday = computed(() => {
         cursor: pointer
         background: lighten(#5461c4, 20%)
         border-radius: 50%
+  
+  &__events
+    display: flex
+    flex-direction: column
+    margin-top: 2px
+
+  &__event
+    border-radius: 5px
+    color: #fff
 
 </style>

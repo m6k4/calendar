@@ -20,13 +20,23 @@
 </template>
 
 <script setup lang="ts">import { ref } from 'vue';
+import { Event } from '../../../../types/types';
+import { uuid } from 'vue-uuid'; 
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['closeModal']);
+const emit = defineEmits(['closeModal', 'addEvent']);
 
 const eventName = ref('');
-const addEvent = () => {
-  emit('closeModal');
-};
 
+const addEvent = () => {
+  console.log('dd');
+  const event: Event = {
+    uuid: uuid.v1(),
+    name: eventName.value,
+    dateStart: '2022-05-04',
+    dateEnd: '2022-05-05',
+    color: '#A0CCE4'
+  };
+  emit('addEvent', event);
+};
 </script>
