@@ -6,7 +6,7 @@
         aria-hidden="true"
         @click="prevMonth"
       />
-      <div class="CalendarMonth__header__title">
+      <div class="CalendarMonth__header__title"> 
         {{ monthDetails?.engName }} {{ currentDate.year() }}
       </div>
       <i  
@@ -61,14 +61,19 @@ const {
 } = useCalendar();
 
 const {
+  eventsList,
   fillCalendarWithEvents,
 } = useEvents();
 
 
 watch(monthDaysArray, () => {
-  console.log('TESt');
   fillCalendarWithEvents(monthDaysArray.value);
 });
+
+watch(eventsList, () => {
+  console.log('TEST232');
+  fillCalendarWithEvents(monthDaysArray.value);
+}, { deep: true });
 
 prepareCalendarMonth();
 

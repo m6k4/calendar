@@ -7,6 +7,7 @@ export default function useEvents() {
     const eventsList = ref<Array<Event>>(exampleEvents);
 
     const addEvent = (event: Event) => {
+      console.log(eventsList);
       eventsList.value.push(event);
     }
 
@@ -18,16 +19,18 @@ export default function useEvents() {
           const eventDateStart = moment(event.dateStart).format('YYYY-MM-DD');
           const eventDateEnd = moment(event.dateEnd).format('YYYY-MM-DD');
 
-          if (moment(dayDate).isBetween(eventDateStart, eventDateEnd)) {
-            day.events.push(event);
+          if (moment(dayDate).isBetween(eventDateStart, eventDateEnd, null, '[]')) {
+            if(!day.events.some(dayEvent => dayEvent.uuid === event.uuid)){
+              day.events.push(event);
+            }
           }
         });
       });
     }
   
-      return {
-        eventsList: computed(() => eventsList.value),
-        addEvent,
-        fillCalendarWithEvents
-      }
+    return {
+      eventsList: computed(() => eventsList.value),
+      addEvent,
+      fillCalendarWithEvents
+    }
 }

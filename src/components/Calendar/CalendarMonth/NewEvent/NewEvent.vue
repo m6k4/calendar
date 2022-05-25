@@ -29,7 +29,6 @@ const emit = defineEmits(['closeModal', 'addEvent']);
 const eventName = ref('');
 
 const addEvent = () => {
-  console.log('dd');
   const event: Event = {
     uuid: uuid.v1(),
     name: eventName.value,

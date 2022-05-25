@@ -4,6 +4,7 @@
       class="CalendarItem__box"
       :class="{ 'CalendarItem__box--inactive': !isActive }"
     >
+      <slot name="title" />
       <label
         class="CalendarItem__header"
       >
@@ -16,16 +17,52 @@
           {{ day }}
         </span>
       </label>
-      <div class="CalendarItem__events">
+      <div class="CalendarItem__events"> 
         <div
           v-for="event in events"
           :key="event.uuid"
-          class="CalendarItem__event"
-          :style="`background:${event.color}`"
         >
-          <span class="CalendarItem__event__title">
-            {{ event.name }}
-          </span>
+          <Popper
+            arrow
+            class="CalendarItem__popover"
+          >
+            <div 
+              class="CalendarItem__event"
+              :style="`background:${event.color}`"
+            >
+              <span class="CalendarItem__event__title">
+                {{ event.name }}
+              </span>
+            </div>
+            <template
+              #content
+            >
+              <div class="CalendarItem__popover-content">
+                <div class="CalendarItem__popover-header">
+                  {{ event.name }}
+                </div>
+                <div class="CalendarItem__popover-description">
+                  <p>
+                    <label class="CalendarItem__popover--title">
+                      start at: 
+                    </label>{{ event.dateStart }}
+                  </p>
+                  <p>
+                    <label class="CalendarItem__popover--title">
+                      end at:
+                    </label>
+                    {{ event.dateEnd }}
+                  </p>
+                  <p>
+                    <label class="CalendarItem__popover--title">
+                      duration:
+                    </label>
+                    {{ moment.duration(moment(event.dateEnd).diff(moment(event.dateStart))).asDays() }} days
+                  </p>
+                </div>
+              </div>
+            </template>
+          </Popper>
         </div>
       </div>
     </div>
@@ -36,6 +73,7 @@
 import moment from 'moment';
 import { computed, PropType } from 'vue';
 import { Event } from '../../../../types/types';
+import Popper from 'vue3-popper';
 
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal']);
@@ -63,6 +101,7 @@ const props = defineProps({
 const isToday = computed(() => {
   return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
 });
+
 </script>
 
 <style lang="sass">
@@ -72,7 +111,9 @@ const isToday = computed(() => {
 
   &__box
     width: 100%
-    height: 110px
+    min-height: 110px
+    padding-bottom: 4px
+    max-height: 140px
 
     &--inactive
       color: lighten(grey, 20%)
@@ -106,9 +147,42 @@ const isToday = computed(() => {
     display: flex
     flex-direction: column
     margin-top: 2px
+    gap: 2px
+    font-size: 13px
+
+  &__popover
+    width: 100%
+    border: 0px solid  !important
+    &--title
+      font-size: 11px
+      font-weight: bold
+      color: darken(gray, 20%)
 
   &__event
     border-radius: 5px
     color: #fff
+    width: 99%
+    &:hover
+      cursor: pointer
+      opacity: 0.8
+  
+  &__popover-content
+    height: 150px
+    width: 200px
+    
+  &__popover-header
+    height: 40px
+    background: #FFF5E6
+    border-bottom: 1px solid darken(#FFF5E6, 20%)
+    padding: 10px
+  
+  &__popover-description
+    display: flex
+    flex-direction: column
+    padding: 10px
+    text-align: left
+    gap: 10px
+    font-size: 13px
+
 
 </style>
