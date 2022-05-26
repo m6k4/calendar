@@ -8,14 +8,23 @@
       <label
         class="CalendarItem__header"
       >
-        <span 
-          role="button"
-          class="CalendarItem__content"
-          :class="{ 'CalendarItem__content--current' : isToday }"
-          @click="$emit('showNewEventModal', {day})"
+        <Popper
+          arrow
+          class="CalendarItem__popover popover-header"
         >
-          {{ day }}
-        </span>
+          <span 
+            role="button"
+            class="CalendarItem__content"
+            :class="{ 'CalendarItem__content--current' : isToday }"
+          >
+            {{ day }}
+          </span>
+          <template
+            #content
+          >
+            <EventCreate />
+          </template>
+        </Popper>
       </label>
       <div class="CalendarItem__events"> 
         <div
@@ -37,7 +46,7 @@
             <template
               #content
             >
-              <TaskDetails
+              <EventDetails
                 :event="event"
               />
             </template>
@@ -53,8 +62,8 @@ import moment from 'moment';
 import { computed, PropType } from 'vue';
 import { Event } from '../../../../types/types';
 import Popper from 'vue3-popper';
-import TaskDetails from '../TaskDetails/TaskDetails.vue';
-
+import EventDetails from '../EventDetails/EventDetails.vue';
+import EventCreate from '../EventCreate/EventCreate.vue';
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal', 'editEvent']);
 // eslint-disable-next-line no-undef
@@ -105,9 +114,8 @@ const isToday = computed(() => {
     align-items: center
 
   &__content
-    padding: 4px
-    width: 30px
     font-size: 13px
+    padding: 4px
     
     &:hover
       cursor: pointer
@@ -137,6 +145,9 @@ const isToday = computed(() => {
       font-size: 11px
       font-weight: bold
       color: darken(gray, 20%)
+
+  .popover-header
+    padding: 12px
 
   &__event
     border-radius: 5px

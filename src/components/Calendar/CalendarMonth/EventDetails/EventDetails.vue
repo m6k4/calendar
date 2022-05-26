@@ -1,9 +1,9 @@
 <template>
-  <div class="TaskDetails"> 
-    <div class="TaskDetails__popover-content">
-      <div class="TaskDetails__popover-header">
+  <div class="EventDetails"> 
+    <div class="EventDetails__popover-content">
+      <div class="EventDetails__popover-header">
         <p>{{ event.name }}</p>
-        <div class="TaskDetails__popover-header-icons">
+        <div class="EventDetails__popover-header-icons">
           <i 
             v-if="!isEditing"
             role="button"
@@ -26,9 +26,9 @@
           />
         </div>
       </div>
-      <div class="TaskDetails__popover-description">
-        <div class="TaskDetails__popover-row">
-          <label class="TaskDetails__popover--title">
+      <div class="EventDetails__popover-description">
+        <div class="EventDetails__popover-row">
+          <label class="EventDetails__popover--title">
             start at: 
           </label>
           <span v-if="!isEditing">
@@ -38,12 +38,12 @@
             <datepicker
               v-model="newDateStart"
               :monday-first="true"
-              class="TaskDetails__popover--datepicker" 
+              class="EventDetails__popover--datepicker" 
             />
           </span>
         </div>
-        <div class="TaskDetails__popover-row">
-          <label class="TaskDetails__popover--title">
+        <div class="EventDetails__popover-row">
+          <label class="EventDetails__popover--title">
             end at:
           </label>
           <span v-if="!isEditing">
@@ -53,12 +53,12 @@
             <datepicker
               v-model="newDateEnd"
               :monday-first="true"
-              class="TaskDetails__popover--datepicker" 
+              class="EventDetails__popover--datepicker" 
             />
           </span>
         </div>
-        <div class="TaskDetails__popover-row">
-          <label class="TaskDetails__popover--title">
+        <div class="EventDetails__popover-row">
+          <label class="EventDetails__popover--title">
             duration:
           </label>
           {{ moment.duration(moment(event.dateEnd).diff(moment(event.dateStart))).asDays() }} days
@@ -106,7 +106,7 @@ const saveEvent = () => {
 </script>
 
 <style lang="sass">
-.TaskDetails
+.EventDetails
     width: 100%
     border: 0px solid  !important
 
@@ -155,23 +155,5 @@ const saveEvent = () => {
         gap: 10px
         font-size: 13px
         min-height: 34px
-    
-    .vuejs3-datepicker__value
-        height: 20px
-        min-width: 180px
 
-    .vuejs3-datepicker__icon
-        position: absolute
-        right: 10px
-        top: 5px
-
-    .vuejs3-datepicker__content
-        position: absolute
-        top: 4px
-
-    .vuejs3-datepicker__calendar-topbar
-        display: none
-    
-    .vuejs3-datepicker__calendar
-        bottom: 0px
 </style>

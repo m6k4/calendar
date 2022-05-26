@@ -29,4 +29,22 @@ body
 .popper #arrow::before
   background: #FFF5E6 !important
 
+.vuejs3-datepicker__value
+    height: 20px
+    min-width: 180px
+
+.vuejs3-datepicker__icon
+    position: absolute
+    right: 10px
+    top: 5px
+
+.vuejs3-datepicker__content
+    position: absolute
+    top: 4px
+
+.vuejs3-datepicker__calendar-topbar
+    display: none
+
+.vuejs3-datepicker__calendar
+    bottom: 0px
 </style>
