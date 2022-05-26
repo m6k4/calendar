@@ -28,6 +28,10 @@ export default function useEvents() {
       });
     }
 
+    const removeEvent = (event: Event) => {
+      eventsList.value = eventsList.value.filter((item: Event) => item.uuid !== event.uuid);
+    }
+
     const fillCalendarWithEvents = (calendar: Array<SingleDay>) => {
       calendar = clearEvents(calendar);
       calendar.forEach((day: SingleDay) => {
@@ -57,6 +61,7 @@ export default function useEvents() {
       eventsList: computed(() => eventsList.value),
       addEvent,
       editEvent,
+      removeEvent,
       fillCalendarWithEvents
     }
 }

@@ -22,7 +22,7 @@
             role="button"
             class="fa fa-trash icons__icon" 
             aria-hidden="true"
-            @click="removeEvent"
+            @click="removeEvent(event)"
           />
         </div>
       </div>
@@ -87,6 +87,7 @@ const props = defineProps({
 
 const {
     editEvent,
+    removeEvent,
 } = useEvents();
 
 const isEditing = ref(false);
@@ -102,9 +103,6 @@ const saveEvent = () => {
   isEditing.value = false;
 };
 
-const removeEvent = () => {
-  console.log('removeEvent');
-};
 </script>
 
 <style lang="sass">
