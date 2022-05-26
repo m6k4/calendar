@@ -1,5 +1,8 @@
 <template>
-  <div class="CalendarMonth">
+  <div
+    class="CalendarMonth"
+    :scroll="handleScroll"
+  >
     <div class="CalendarMonth__header">
       <i 
         class="fa fa-chevron-left CalendarMonth__header__icon" 
@@ -38,8 +41,9 @@ import weekDayNames from '../weekDayNames';
 import CalendarItem from './CalendarItem/CalendarItem.vue';
 import useCalendar from '../composable/useCalendar';
 import { Event } from '../../../types/types';
-import { PropType, watch } from 'vue';
+import { onMounted, onUnmounted, PropType, watch } from 'vue';
 import useEvents from '../composable/useEvents';
+import debounce from 'lodash/debounce';
 
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal']);
@@ -74,6 +78,23 @@ watch(eventsList, () => {
   console.log('TEST232');
   fillCalendarWithEvents(monthDaysArray.value);
 }, { deep: true });
+
+const handleScroll = (event: WheelEvent) => {
+  if(event.deltaY > 0) {
+    prevMonth();
+  } else {
+    nextMonth();
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('wheel', debounce(handleScroll, 50));
+})
+
+onUnmounted(() => {
+  window.removeEventListener('wheel', debounce(handleScroll, 50));
+})
+
 
 prepareCalendarMonth();
 
