@@ -4,4 +4,7 @@ import router from "./router";
 import 'font-awesome/css/font-awesome.css';
 import './index.css';
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
+

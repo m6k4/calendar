@@ -8,8 +8,8 @@ export interface SingleDay {
 
 export interface Event {
     uuid: string;
-    name: string;
+    name?: string;
     dateStart: string;
     dateEnd: string;
-    color: string;
+    color?: string;
 }

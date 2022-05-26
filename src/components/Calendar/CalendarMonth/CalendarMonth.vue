@@ -75,7 +75,6 @@ watch(monthDaysArray, () => {
 });
 
 watch(eventsList, () => {
-  console.log('TEST232');
   fillCalendarWithEvents(monthDaysArray.value);
 }, { deep: true });
 

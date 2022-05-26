@@ -37,30 +37,9 @@
             <template
               #content
             >
-              <div class="CalendarItem__popover-content">
-                <div class="CalendarItem__popover-header">
-                  {{ event.name }}
-                </div>
-                <div class="CalendarItem__popover-description">
-                  <p>
-                    <label class="CalendarItem__popover--title">
-                      start at: 
-                    </label>{{ event.dateStart }}
-                  </p>
-                  <p>
-                    <label class="CalendarItem__popover--title">
-                      end at:
-                    </label>
-                    {{ event.dateEnd }}
-                  </p>
-                  <p>
-                    <label class="CalendarItem__popover--title">
-                      duration:
-                    </label>
-                    {{ moment.duration(moment(event.dateEnd).diff(moment(event.dateStart))).asDays() }} days
-                  </p>
-                </div>
-              </div>
+              <TaskDetails
+                :event="event"
+              />
             </template>
           </Popper>
         </div>
@@ -74,9 +53,10 @@ import moment from 'moment';
 import { computed, PropType } from 'vue';
 import { Event } from '../../../../types/types';
 import Popper from 'vue3-popper';
+import TaskDetails from '../TaskDetails/TaskDetails.vue';
 
 // eslint-disable-next-line no-undef
-defineEmits(['showNewEventModal']);
+defineEmits(['showNewEventModal', 'editEvent']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   day: {
@@ -165,24 +145,5 @@ const isToday = computed(() => {
     &:hover
       cursor: pointer
       opacity: 0.8
-  
-  &__popover-content
-    height: 150px
-    width: 200px
-    
-  &__popover-header
-    height: 40px
-    background: #FFF5E6
-    border-bottom: 1px solid darken(#FFF5E6, 20%)
-    padding: 10px
-  
-  &__popover-description
-    display: flex
-    flex-direction: column
-    padding: 10px
-    text-align: left
-    gap: 10px
-    font-size: 13px
-
 
 </style>
