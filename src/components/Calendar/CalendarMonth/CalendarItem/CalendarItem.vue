@@ -61,7 +61,9 @@
         class="CalendarItem__events--bottom"
         @click="$emit('showAllEvents', events)"
       >
-        ...
+        <span v-tooltip:bottom.tooltip="`Show ${events.length - 3} more`">
+          ...
+        </span>
       </span>
     </div>
   </div>
