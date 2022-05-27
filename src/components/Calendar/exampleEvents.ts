@@ -49,4 +49,11 @@ export default
         dateEnd: '2022-05-03',
         color: '#d86565',
     },
+    {
+        uuid: 'dc23ad42-4a77-47ea-8f5b-17012c025g32',
+        name: 'birthday',
+        dateStart: '2022-05-01',
+        dateEnd: '2022-05-03',
+        color: '#a56cb5',
+    },
 ];

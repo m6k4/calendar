@@ -26,7 +26,7 @@
         :is-active="dayElement.isActive"
         :moment-date="dayElement.momentDate"
         :events="dayElement.events"
-        @show-new-event-modal="$emit('showNewEventModal', $event)"
+        @show-all-events="$emit('showAllEventsModal', $event)"
       >
         <template #title>
           {{ weekDayNames.find((day) => day.id === dayElement.id)?.shortName }}
@@ -46,7 +46,7 @@ import useEvents from '../composable/useEvents';
 import debounce from 'lodash/debounce';
 
 // eslint-disable-next-line no-undef
-defineEmits(['showNewEventModal']);
+defineEmits(['showAllEventsModal']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   eventsList: {

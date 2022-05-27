@@ -1,19 +1,18 @@
 <template>
   <CalendarMonth 
     :events-list="eventsList"
-    @show-new-event-modal="isNewEventModalVisible = !isNewEventModalVisible"
+    @show-all-events-modal="handleShowAllEventsModal"
   />
   <ModalWindow 
-    v-if="isNewEventModalVisible"
-    @close-modal="isNewEventModalVisible = false"
+    v-if="isAllEventsModalVisible"
+    @close-modal="isAllEventsModalVisible = false"
   >
     <template #header>
-      New event
+      All event list
     </template>
     <template #description>
-      <NewEvent 
-        @add-event="handleAddEvent"
-        @close-modal="isNewEventModalVisible = false"
+      <AllEvents 
+        :events="allEvents"
       />
     </template>
   </ModalWindow>
@@ -21,19 +20,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ModalWindow from '../components/Common/ModalWindow.vue';
-import NewEvent from '../components/Calendar/CalendarMonth/NewEvent/NewEvent.vue';
+import AllEvents from '../components/Calendar/CalendarMonth/AllEvents/AllEvents.vue';
 import CalendarMonth from '../components/Calendar/CalendarMonth/CalendarMonth.vue';
-import useEvents from '../components/Calendar/composable/useEvents';
 import { Event } from '../types/types';
-const isNewEventModalVisible = ref(false);
+import useEvents from '../components/Calendar/composable/useEvents';
+const isAllEventsModalVisible = ref(false);
 
 const {
-  addEvent,
   eventsList,
 } = useEvents();
 
-const handleAddEvent = (event: Event) => {
-  addEvent(event);
-  isNewEventModalVisible.value = false;
+const allEvents = ref<Array<Event>>([]);
+
+const handleShowAllEventsModal = (events: Array<Event>) => {
+  allEvents.value = events;
+  isAllEventsModalVisible.value = true;
 };
 </script>

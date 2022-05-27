@@ -1,64 +1,68 @@
 <template>
   <div class="CalendarItem">
+    <div class="CalendarItem__title">
+      <slot name="title" />
+    </div>
     <div
-      class="CalendarItem__box"
-      :class="{ 'CalendarItem__box--inactive': !isActive }"
+      class="CalendarItem__header"
     >
-      <div class="CalendarItem__box-title">
-        <slot name="title" />
-      </div>
+      <Popper
+        arrow
+        :disable-click-away="false"
+        class="CalendarItem__popover popover-header"
+      >
+        <span 
+          role="button"
+          class="CalendarItem__content"
+          :style="{ color: !isActive ? '#b7b7b7' : '' }"
+          :class="{ 'CalendarItem__content--current' : isToday }"
+        >
+          {{ day }}
+        </span>
+        <template
+          #content="{ close }"
+        >
+          <EventCreate 
+            :date-details="momentDate"
+            @close-popover="close"
+          />
+        </template>
+      </Popper>
+    </div>
+    <div class="CalendarItem__events"> 
       <div
-        class="CalendarItem__header"
+        v-for="event in getOnlyThreeEvents"
+        :key="event.uuid"
       >
         <Popper
           arrow
-          :disable-click-away="false"
-          class="CalendarItem__popover popover-header"
+          class="CalendarItem__popover"
         >
-          <span 
-            role="button"
-            class="CalendarItem__content"
-            :class="{ 'CalendarItem__content--current' : isToday }"
+          <div 
+            class="CalendarItem__event"
+            :style="`background:${event.color}`"
           >
-            {{ day }}
-          </span>
+            <span class="CalendarItem__event__title">
+              {{ event.name }}
+            </span>
+          </div>
           <template
-            #content="{ close }"
+            #content
           >
-            <EventCreate 
-              :date-details="momentDate"
-              @close-popover="close"
+            <EventDetails
+              :event="event"
             />
           </template>
         </Popper>
       </div>
-      <div class="CalendarItem__events"> 
-        <div
-          v-for="event in events"
-          :key="event.uuid"
-        >
-          <Popper
-            arrow
-            class="CalendarItem__popover"
-          >
-            <div 
-              class="CalendarItem__event"
-              :style="`background:${event.color}`"
-            >
-              <span class="CalendarItem__event__title">
-                {{ event.name }}
-              </span>
-            </div>
-            <template
-              #content
-            >
-              <EventDetails
-                :event="event"
-              />
-            </template>
-          </Popper>
-        </div>
-      </div>
+      <span 
+        v-if="events.length > 3"
+        role="button" 
+        class="CalendarItem__events--bottom"
+        @click="$emit('showAllEvents', events)"
+      >
+        ...
+      </span>
     </div>
   </div>
 </template>
@@ -73,7 +77,7 @@ import EventCreate from '../EventCreate/EventCreate.vue';
 import Datepicker from 'vuejs3-datepicker';
 
 // eslint-disable-next-line no-undef
-defineEmits(['showNewEventModal', 'editEvent']);
+defineEmits(['showAllEvents', 'editEvent']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   day: {
@@ -94,6 +98,15 @@ const props = defineProps({
   },
   });
 
+
+const getOnlyThreeEvents = computed(() => {
+  const eventsCopy: Array<Event> = props.events;
+  if (eventsCopy.length > 3) {
+    return eventsCopy.slice(0, 3);
+  }
+  return eventsCopy;
+});
+
 //isToday
 const isToday = computed(() => {
   return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
@@ -105,18 +118,10 @@ const isToday = computed(() => {
 .CalendarItem
   border-top: 1px solid grey
   border-right: 1px solid grey
+  height: 110px
+  position: relative
 
-  &__box
-    width: 100%
-    min-height: 110px
-    padding-bottom: 4px
-    max-height: 140px
-    position: relative
-
-    &--inactive
-      color: lighten(grey, 20%)
-
-  &__box-title
+  &__title
     font-size: 12px
     position: absolute
     bottom: 110px
@@ -153,6 +158,17 @@ const isToday = computed(() => {
     margin-top: 4px
     gap: 2px
     font-size: 13px
+    height: 70%
+    position: relative
+    &--bottom
+      font-size: 18px
+      position: absolute
+      bottom: 0px
+      left: 70px
+      cursor: pointer
+      &:hover
+        cursor: pointer
+        color: lighten(gray, 10%)
 
   &__popover
     width: 100%
