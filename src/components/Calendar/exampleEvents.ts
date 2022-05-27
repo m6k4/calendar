@@ -42,4 +42,11 @@ export default
         dateEnd: '2022-05-06',
         color: '#A0A7DE',
     },
+    {
+        uuid: 'dc23ad42-4a77-47ea-8f5b-17012c025d44',
+        name: 'party',
+        dateStart: '2022-05-03',
+        dateEnd: '2022-05-03',
+        color: '#d86565',
+    },
 ];

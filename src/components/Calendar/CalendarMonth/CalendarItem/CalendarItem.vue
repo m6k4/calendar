@@ -4,7 +4,9 @@
       class="CalendarItem__box"
       :class="{ 'CalendarItem__box--inactive': !isActive }"
     >
-      <slot name="title" />
+      <div class="CalendarItem__box-title">
+        <slot name="title" />
+      </div>
       <div
         class="CalendarItem__header"
       >
@@ -12,22 +14,20 @@
           arrow
           :disable-click-away="false"
           class="CalendarItem__popover popover-header"
-          :show="showPopper"
         >
           <span 
             role="button"
             class="CalendarItem__content"
             :class="{ 'CalendarItem__content--current' : isToday }"
-            @click="showPopper = !showPopper"
           >
             {{ day }}
           </span>
           <template
-            #content
+            #content="{ close }"
           >
             <EventCreate 
               :date-details="momentDate"
-              @close-popover="showPopper = !showPopper"
+              @close-popover="close"
             />
           </template>
         </Popper>
@@ -94,8 +94,6 @@ const props = defineProps({
   },
   });
 
-const showPopper = ref(false);
-
 //isToday
 const isToday = computed(() => {
   return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
@@ -113,15 +111,23 @@ const isToday = computed(() => {
     min-height: 110px
     padding-bottom: 4px
     max-height: 140px
+    position: relative
 
     &--inactive
       color: lighten(grey, 20%)
 
+  &__box-title
+    font-size: 12px
+    position: absolute
+    bottom: 110px
+    left: 66px
+
   &__header
-    margin-top: 2px
     display: flex
     justify-content: center
     align-items: center
+    position: relative
+    padding: 2px
 
   &__content
     font-size: 13px
@@ -144,13 +150,15 @@ const isToday = computed(() => {
   &__events
     display: flex
     flex-direction: column
-    margin-top: 2px
+    margin-top: 4px
     gap: 2px
     font-size: 13px
 
   &__popover
     width: 100%
     border: 0px solid  !important
+    text-align: center
+
     &--title
       font-size: 11px
       font-weight: bold
@@ -162,7 +170,13 @@ const isToday = computed(() => {
   &__event
     border-radius: 5px
     color: #fff
-    width: 99%
+    width: 98%
+    display: inline-block
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
+    padding: 0 6px 0 6px
+
     &:hover
       cursor: pointer
       opacity: 0.8

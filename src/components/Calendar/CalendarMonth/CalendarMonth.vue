@@ -112,15 +112,13 @@ prepareCalendarMonth();
 
   &__items
     display: grid
-    grid-template-columns: repeat(7, 1fr)
+    grid-template-columns: repeat(7, minmax(0, 1fr))
     border-bottom: 1px solid grey
     border-left: 1px solid grey
-    grid-gap: 1px
-
 
   &__header
     font-size: 20px
-    margin-bottom: 10px
+    margin-bottom: 15px
     display: flex
     flex-direction: row
     justify-content: center

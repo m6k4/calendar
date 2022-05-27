@@ -2,7 +2,9 @@
   <div class="EventDetails"> 
     <div class="EventDetails__popover-content">
       <div class="EventDetails__popover-header">
-        <p>{{ event.name }}</p>
+        <p class="EventDetails__popover-text">
+          {{ event.name }}
+        </p>
         <div class="EventDetails__popover-header-icons">
           <i 
             v-if="!isEditing"
@@ -128,6 +130,11 @@ const saveEvent = () => {
         padding: 10px
         display: flex
         align-items: baseline
+      
+    &__popover-text
+      text-overflow: ellipsis
+      white-space: nowrap
+      overflow: hidden
 
     &__popover-header-icons
         display: flex
