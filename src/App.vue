@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import PageHeader from './components/Platform/Header/PageHeader.vue';
+// import PageHeader from './components/Platform/Header/PageHeader.vue';
 </script>
 <template>
-  <PageHeader />
+  <!-- <PageHeader /> -->
   <router-view />
 </template>
 
