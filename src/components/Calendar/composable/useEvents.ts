@@ -8,15 +8,12 @@ export default function useEvents() {
     // const eventsList = ref<Array<Event>>(exampleEvents);
 
     const addEvent = (event: Event) => {
-      console.log(eventsList);
       eventsList.value.push(event);
     }
 
     const editEvent = (event: Event) => {
-     
       eventsList.value = eventsList.value.map((item: Event) => {
         if (item.uuid === event.uuid) {
-          console.log(event.dateStart, event.dateEnd)
           return {
             ...item,
             dateStart: event.dateStart,
@@ -26,6 +23,10 @@ export default function useEvents() {
           return item;
         }
       });
+    }
+
+    const createEvent = (event: Event) => {
+      eventsList.value.push(event);
     }
 
     const removeEvent = (event: Event) => {
@@ -62,6 +63,7 @@ export default function useEvents() {
       addEvent,
       editEvent,
       removeEvent,
+      createEvent,
       fillCalendarWithEvents
     }
 }

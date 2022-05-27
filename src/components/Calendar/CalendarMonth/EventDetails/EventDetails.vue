@@ -83,7 +83,7 @@ const props = defineProps({
     type: Object as PropType<Event>,
     required: true,
   },
-  });
+});
 
 const {
     editEvent,
@@ -134,6 +134,7 @@ const saveEvent = () => {
         margin-left: auto
         gap: 10px
         font-size: 14px
+        color: darken(grey, 20%)
 
         .icons__icon
             margin: 0

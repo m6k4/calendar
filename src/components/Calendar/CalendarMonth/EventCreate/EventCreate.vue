@@ -1,18 +1,32 @@
 <template>
-  <div class="EventCreate"> 
+  <div
+    class="EventCreate"
+  > 
     <div class="EventCreate__popover-content">
       <div class="EventCreate__popover-header">
         Create new event
+        <div class="EventCreate__popover-header-icons">
+          <i 
+            role="button"
+            class="fa fa-floppy-o icons__icon" 
+            aria-hidden="true"
+            @click="saveEvent"
+          />
+        </div>
       </div>
       <div class="EventCreate__popover-description">
         <div class="EventCreate__popover-row">
           <label class="EventCreate__popover--title">
             name: 
           </label>
-          <!-- <input 
+          <input
             v-model="newEvent.name"
-            
-          > -->
+            type="text"
+            required
+            min="1"
+            class="h-7 w-full rounded border border-transparent border-gray-300 p-2 cursor-text focus:outline-none focus:border-gray-500"
+            placeholder="event name"
+          >
         </div>
         <div class="EventCreate__popover-row">
           <label class="EventCreate__popover--title">
@@ -34,35 +48,56 @@
             class="EventCreate__popover--datepicker" 
           />
         </div>
-        <!-- <div class="EventCreate__popover-row">
-          <label class="EventCreate__popover--title">
-            color:
-          </label>
-          <span class="rounded-full h-1 w-1" />
-        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import Datepicker from 'vuejs3-datepicker';
 import useEvents from '../../composable/useEvents';
 import { uuid } from 'vue-uuid'; 
 import { Event } from '../../../../types/types';
+import { PropType, ref } from 'vue';
+
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['closePopover']);
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  dateDetails: {
+    type: Object as PropType<Moment>,
+    required: true,
+  },
+});
 
 const {
-    editEvent,
-    removeEvent,
+    createEvent,
 } = useEvents();
 
 const newEvent: Event = {
     uuid: uuid.v1(),
     name: '',
-    dateStart: '',
-    dateEnd: '',
+    dateStart: moment(props.dateDetails).format('YYYY-MM-DD'),
+    dateEnd: moment(props.dateDetails).format('YYYY-MM-DD'),
     color: '#A0CCE4',
+};
+
+const saveEvent = () => {
+    const eventParams = {
+        ...newEvent,
+        dateStart: moment(newEvent.dateStart).format('YYYY-MM-DD'),
+        dateEnd: moment(newEvent.dateEnd).format('YYYY-MM-DD'),
+    };
+    createEvent(eventParams);
+    clearForm();
+    emit('closePopover');
+};
+
+const clearForm = () => {
+    newEvent.name = '';
+    newEvent.dateStart = '';
+    newEvent.dateEnd = '';
 };
 </script>
 
@@ -95,6 +130,7 @@ const newEvent: Event = {
         margin-left: auto
         gap: 10px
         font-size: 14px
+        color: darken(grey, 20%)
 
         .icons__icon
             margin: 0

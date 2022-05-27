@@ -5,27 +5,33 @@
       :class="{ 'CalendarItem__box--inactive': !isActive }"
     >
       <slot name="title" />
-      <label
+      <div
         class="CalendarItem__header"
       >
         <Popper
           arrow
+          :disable-click-away="false"
           class="CalendarItem__popover popover-header"
+          :show="showPopper"
         >
           <span 
             role="button"
             class="CalendarItem__content"
             :class="{ 'CalendarItem__content--current' : isToday }"
+            @click="showPopper = !showPopper"
           >
             {{ day }}
           </span>
           <template
             #content
           >
-            <EventCreate />
+            <EventCreate 
+              :date-details="momentDate"
+              @close-popover="showPopper = !showPopper"
+            />
           </template>
         </Popper>
-      </label>
+      </div>
       <div class="CalendarItem__events"> 
         <div
           v-for="event in events"
@@ -58,12 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment';
-import { computed, PropType } from 'vue';
+import moment, { Moment } from 'moment';
+import { computed, PropType, ref } from 'vue';
 import { Event } from '../../../../types/types';
 import Popper from 'vue3-popper';
 import EventDetails from '../EventDetails/EventDetails.vue';
 import EventCreate from '../EventCreate/EventCreate.vue';
+import Datepicker from 'vuejs3-datepicker';
+
 // eslint-disable-next-line no-undef
 defineEmits(['showNewEventModal', 'editEvent']);
 // eslint-disable-next-line no-undef
@@ -77,7 +85,7 @@ const props = defineProps({
     required: true,
   },
   momentDate: {
-    type: Object,
+    type: Object as PropType<Moment>,
     required: true,
   },
   events: {
@@ -85,6 +93,8 @@ const props = defineProps({
     required: true,
   },
   });
+
+const showPopper = ref(false);
 
 //isToday
 const isToday = computed(() => {
