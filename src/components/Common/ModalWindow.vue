@@ -43,6 +43,8 @@ const emit = defineEmits(['closeModal']);
   left: 0
   right: 0
   top: 0
+  height: 100%
+  width: 100%
 
   &__icon
     border-radius: 50%
@@ -65,8 +67,6 @@ const emit = defineEmits(['closeModal']);
     box-shadow: 0 10px 20px rgba(black, 0.2)
     left: 50%
     top: 50%
-    width: 30%
-    height: 30%
     position: absolute
     transform: translate(-50%, -50%)
     z-index: 21
