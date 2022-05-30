@@ -1,4 +1,4 @@
-Demo: [live](https://628e9f75dd402d00082db5fe--incandescent-sprinkles-77b2e7.netlify.app/)
+Demo: [live](https://master--incandescent-sprinkles-77b2e7.netlify.app/)
 
 # Vue 3 + TypeScript + Vite
 
