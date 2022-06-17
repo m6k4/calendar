@@ -61,11 +61,23 @@
         v-if="events.length > 3"
         role="button" 
         class="CalendarItem__events--bottom"
-        @click="$emit('showAllEvents', events)"
       >
-        <span v-tooltip:bottom.tooltip="`Show ${events.length - 3} more`">
-          ...
-        </span>
+        <Popper
+          :disable-click-away="true"
+          class="CalendarItem__popover"
+        >
+          <span v-tooltip:bottom.tooltip="`Show ${events.length - 3} more`">
+            ...
+          </span>
+          <template
+            #content="{ close }"
+          >
+            <EventList
+              :events="events"
+              @close-popover="close"
+            />
+          </template>
+        </Popper>
       </span>
     </div>
   </div>
@@ -76,10 +88,10 @@ import moment, { Moment } from 'moment';
 import { computed, PropType, ref } from 'vue';
 import { Event } from '../../../../types/types';
 import Popper from 'vue3-popper';
-import EventDetails from '../EventDetails/EventDetails.vue';
-import EventCreate from '../EventCreate/EventCreate.vue';
+import EventDetails from '../EventModalContents/EventDetails/EventDetails.vue';
+import EventCreate from '../EventModalContents/EventCreate/EventCreate.vue';
 import Datepicker from 'vuejs3-datepicker';
-
+import EventList from '../EventModalContents/EventList/EventList.vue';
 // eslint-disable-next-line no-undef
 defineEmits(['showAllEvents', 'editEvent']);
 // eslint-disable-next-line no-undef

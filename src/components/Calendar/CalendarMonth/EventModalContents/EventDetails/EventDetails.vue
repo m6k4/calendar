@@ -81,7 +81,7 @@ import moment from 'moment';
 import { PropType, ref } from 'vue';
 import { Event } from '../../../../types/types';
 import Datepicker from 'vuejs3-datepicker';
-import useEvents from '../../composable/useEvents';
+import useEvents from '../../../composable/useEvents';
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['editEvent', 'closePopover']);

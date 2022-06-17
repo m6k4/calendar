@@ -26,7 +26,6 @@
         :is-active="dayElement.isActive"
         :moment-date="dayElement.momentDate"
         :events="dayElement.events"
-        @show-all-events="$emit('showAllEventsModal', $event)"
       >
         <template #title>
           {{ weekDayNames.find((day) => day.id === dayElement.id)?.shortName }}
@@ -45,8 +44,6 @@ import { onMounted, onUnmounted, PropType, watch } from 'vue';
 import useEvents from '../composable/useEvents';
 import debounce from 'lodash/debounce';
 
-// eslint-disable-next-line no-undef
-defineEmits(['showAllEventsModal']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   eventsList: {

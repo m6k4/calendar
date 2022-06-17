@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import moment, { Moment } from 'moment';
 import Datepicker from 'vuejs3-datepicker';
-import useEvents from '../../composable/useEvents';
+import useEvents from '../../../composable/useEvents';
 import { uuid } from 'vue-uuid'; 
 import { Event } from '../../../../types/types';
 import { PropType, Ref, ref, watch } from 'vue';
