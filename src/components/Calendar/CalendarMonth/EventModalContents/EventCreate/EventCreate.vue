@@ -81,21 +81,22 @@ const {
     createEvent,
 } = useEvents();
 
-let newEvent: Ref<Event> = ref({
+let newEvent: Event ={
   uuid: uuid.v1(),
   name: '',
   dateStart: moment(props.dateDetails).format('YYYY-MM-DD'),
   dateEnd: moment(props.dateDetails).format('YYYY-MM-DD'),
   color: '#A0CCE4',
-});
+};
 
 const saveEvent = () => {
   const eventParams = {
     ...newEvent,
-        dateStart: moment(newEvent.value.dateStart).format('YYYY-MM-DD'),
-        dateEnd: moment(newEvent.value.dateEnd).format('YYYY-MM-DD'),
+        dateStart: moment(newEvent.dateStart).format('YYYY-MM-DD'),
+        dateEnd: moment(newEvent.dateEnd).format('YYYY-MM-DD'),
     };
-    createEvent(eventParams.value);
+    console.log(eventParams, 'params');
+    createEvent(eventParams);
     clearForm();
     emit('closePopover');
 };
@@ -106,9 +107,9 @@ const closeModal = () => {
 };
 
 const clearForm = () => {
-    newEvent.value.name = '';
-    newEvent.value.dateStart = '';
-    newEvent.value.dateEnd = '';
+    newEvent.name = '';
+    newEvent.dateStart = '';
+    newEvent.dateEnd = '';
 };
 </script>
 

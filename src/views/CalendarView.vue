@@ -2,6 +2,9 @@
   <CalendarMonth 
     :events-list="eventsList"
   />
+  <!-- <CalendarWeek
+    :events-list="eventsList"
+  /> -->
 </template>
 <script setup lang="ts">
 import CalendarMonth from '../components/Calendar/CalendarMonth/CalendarMonth.vue';

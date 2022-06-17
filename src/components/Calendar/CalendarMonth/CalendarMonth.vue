@@ -76,10 +76,13 @@ watch(eventsList, () => {
 }, { deep: true });
 
 const handleScroll = (event: WheelEvent) => {
-  if(event.deltaY > 0) {
-    prevMonth();
-  } else {
-    nextMonth();
+  const target = event.target as HTMLTextAreaElement;
+  if(!target.className.includes('EventList__popover')) {
+    if(event.deltaY > 0) {
+      prevMonth();
+    } else {
+      nextMonth();
+    }
   }
 }
 

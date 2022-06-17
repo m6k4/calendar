@@ -21,8 +21,8 @@
           class="EventList__popover-row"
         >
           <div class="EventList__popover-row-left">
-            <p class="EventList__popover-text">
-              {{ event.name }}
+            <p class="EventList__popover-name">
+              <b>{{ event.name }}</b>
             </p>
           </div>
           <div class="EventList__popover-row-right">
@@ -67,8 +67,9 @@ const closeModal = () => {
             color: darken(gray, 20%)
 
     &__popover-content
-        height: 180px
+        max-height: 100px
         width: 280px
+        overflow: auto 
         
     &__popover-header
         height: 40px
@@ -82,6 +83,10 @@ const closeModal = () => {
       text-overflow: ellipsis
       white-space: nowrap
       overflow: hidden
+
+    &__popover-name
+      text-transform: capitalize
+      font-size: 12px
 
     &__popover-header-icons
         display: flex
@@ -100,14 +105,13 @@ const closeModal = () => {
         flex-direction: column
         padding: 10px
         text-align: left
-        gap: 10px
+        gap: 2px
         font-size: 13px
 
     &__popover-row
         display: flex
         flex-direction: row
-        align-items: center
-        gap: 10px
+        justify-content: space-between
         font-size: 13px
         min-height: 34px
 
