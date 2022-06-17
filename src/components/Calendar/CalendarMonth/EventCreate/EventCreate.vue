@@ -4,13 +4,19 @@
   > 
     <div class="EventCreate__popover-content">
       <div class="EventCreate__popover-header">
-        Create new event
+        Create new event {{ newEvent.dateStart }}
         <div class="EventCreate__popover-header-icons">
           <i 
             role="button"
             class="fa fa-floppy-o icons__icon" 
             aria-hidden="true"
             @click="saveEvent"
+          />
+          <i 
+            role="button"
+            class="fa fa-window-close icons__icon" 
+            aria-hidden="true"
+            @click="closeModal"
           />
         </div>
       </div>
@@ -59,7 +65,7 @@ import Datepicker from 'vuejs3-datepicker';
 import useEvents from '../../composable/useEvents';
 import { uuid } from 'vue-uuid'; 
 import { Event } from '../../../../types/types';
-import { PropType, ref } from 'vue';
+import { PropType, Ref, ref, watch } from 'vue';
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['closePopover']);
@@ -75,29 +81,34 @@ const {
     createEvent,
 } = useEvents();
 
-const newEvent: Event = {
-    uuid: uuid.v1(),
-    name: '',
-    dateStart: moment(props.dateDetails).format('YYYY-MM-DD'),
-    dateEnd: moment(props.dateDetails).format('YYYY-MM-DD'),
-    color: '#A0CCE4',
-};
+let newEvent: Ref<Event> = ref({
+  uuid: uuid.v1(),
+  name: '',
+  dateStart: moment(props.dateDetails).format('YYYY-MM-DD'),
+  dateEnd: moment(props.dateDetails).format('YYYY-MM-DD'),
+  color: '#A0CCE4',
+});
 
 const saveEvent = () => {
-    const eventParams = {
-        ...newEvent,
-        dateStart: moment(newEvent.dateStart).format('YYYY-MM-DD'),
-        dateEnd: moment(newEvent.dateEnd).format('YYYY-MM-DD'),
+  const eventParams = {
+    ...newEvent,
+        dateStart: moment(newEvent.value.dateStart).format('YYYY-MM-DD'),
+        dateEnd: moment(newEvent.value.dateEnd).format('YYYY-MM-DD'),
     };
-    createEvent(eventParams);
+    createEvent(eventParams.value);
     clearForm();
     emit('closePopover');
 };
 
+const closeModal = () => {
+  clearForm();
+  emit('closePopover');
+};
+
 const clearForm = () => {
-    newEvent.name = '';
-    newEvent.dateStart = '';
-    newEvent.dateEnd = '';
+    newEvent.value.name = '';
+    newEvent.value.dateStart = '';
+    newEvent.value.dateEnd = '';
 };
 </script>
 

@@ -26,6 +26,12 @@
             aria-hidden="true"
             @click="removeEvent(event)"
           />
+          <i 
+            role="button"
+            class="fa fa-window-close icons__icon" 
+            aria-hidden="true"
+            @click="closeModal"
+          />
         </div>
       </div>
       <div class="EventDetails__popover-description">
@@ -63,7 +69,7 @@
           <label class="EventDetails__popover--title">
             duration:
           </label>
-          {{ moment.duration(moment(event.dateEnd).diff(moment(event.dateStart))).asDays() }} days
+          {{ moment.duration(moment(event.dateEnd).diff(moment(event.dateStart))).asDays() + 1 }} days
         </div>
       </div>
     </div>
@@ -78,7 +84,7 @@ import Datepicker from 'vuejs3-datepicker';
 import useEvents from '../../composable/useEvents';
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['editEvent']);
+const emit = defineEmits(['editEvent', 'closePopover']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   event: {
@@ -103,6 +109,10 @@ const saveEvent = () => {
     dateEnd: moment(newDateEnd.value).format('YYYY-MM-DD'),
   });
   isEditing.value = false;
+};
+
+const closeModal = () => {
+  emit('closePopover');
 };
 
 </script>

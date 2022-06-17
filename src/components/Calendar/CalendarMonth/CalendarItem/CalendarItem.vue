@@ -7,8 +7,7 @@
       class="CalendarItem__header"
     >
       <Popper
-        arrow
-        :disable-click-away="false"
+        :disable-click-away="true"
         class="CalendarItem__popover popover-header"
       >
         <span 
@@ -16,15 +15,17 @@
           class="CalendarItem__content"
           :style="{ color: !isActive ? '#b7b7b7' : '' }"
           :class="{ 'CalendarItem__content--current' : isToday }"
+          @click="showCreateEventModal = true"
         >
           {{ day }}
         </span>
         <template
           #content="{ close }"
         >
-          <EventCreate 
+          <EventCreate
+            v-if="showCreateEventModal"
             :date-details="momentDate"
-            @close-popover="close"
+            @close-popover="close; showCreateEventModal = false"
           />
         </template>
       </Popper>
@@ -35,7 +36,7 @@
         :key="event.uuid"
       >
         <Popper
-          arrow
+          :disable-click-away="true"
           class="CalendarItem__popover"
         >
           <div 
@@ -47,10 +48,11 @@
             </span>
           </div>
           <template
-            #content
+            #content="{ close }"
           >
             <EventDetails
               :event="event"
+              @close-popover="close"
             />
           </template>
         </Popper>
@@ -100,6 +102,7 @@ const props = defineProps({
   },
   });
 
+const showCreateEventModal = ref(false);
 
 const getOnlyThreeEvents = computed(() => {
   const eventsCopy: Array<Event> = props.events;
