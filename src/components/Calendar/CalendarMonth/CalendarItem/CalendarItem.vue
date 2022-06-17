@@ -90,10 +90,9 @@ import { Event } from '../../../../types/types';
 import Popper from 'vue3-popper';
 import EventDetails from '../EventModalContents/EventDetails/EventDetails.vue';
 import EventCreate from '../EventModalContents/EventCreate/EventCreate.vue';
-import Datepicker from 'vuejs3-datepicker';
 import EventList from '../EventModalContents/EventList/EventList.vue';
 // eslint-disable-next-line no-undef
-defineEmits(['showAllEvents', 'editEvent']);
+defineEmits(['editEvent']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
   day: {
