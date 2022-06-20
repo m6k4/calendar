@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue';
-import { Event } from '../../../../types/types';
+import { Event } from '../../../../../types/types';
 import moment from 'moment';
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['closePopover']);

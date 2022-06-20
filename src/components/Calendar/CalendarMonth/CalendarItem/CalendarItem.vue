@@ -34,6 +34,8 @@
       <div
         v-for="event in getOnlyThreeEvents"
         :key="event.uuid"
+        draggable="true"
+        @dragstart="startDrag($event, event.uuid)"
       >
         <Popper
           :disable-click-away="true"
@@ -127,6 +129,10 @@ const getOnlyThreeEvents = computed(() => {
 const isToday = computed(() => {
   return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
 });
+
+const startDrag = (event: DragEvent, eventUuid: string) => {
+  console.log('eventUuid', eventUuid)
+};
 
 </script>
 

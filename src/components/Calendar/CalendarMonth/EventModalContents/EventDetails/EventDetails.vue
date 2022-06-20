@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { PropType, ref } from 'vue';
-import { Event } from '../../../../types/types';
+import { Event } from '../../../../../types/types';
 import Datepicker from 'vuejs3-datepicker';
 import useEvents from '../../../composable/useEvents';
 
