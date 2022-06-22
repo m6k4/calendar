@@ -22,10 +22,7 @@
       <CalendarItem
         v-for="dayElement in monthDaysArray"
         :key="dayElement.id"
-        :day="dayElement.dayNumber"
-        :is-active="dayElement.isActive"
-        :moment-date="dayElement.momentDate"
-        :events="dayElement.events"
+        :day-element="dayElement"
       >
         <template #title>
           {{ weekDayNames.find((day) => day.id === dayElement.id)?.shortName }}

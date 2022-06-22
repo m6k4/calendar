@@ -13,18 +13,18 @@
         <span 
           role="button"
           class="CalendarItem__content"
-          :style="{ color: !isActive ? '#b7b7b7' : '' }"
+          :style="{ color: !dayElement.isActive ? '#b7b7b7' : '' }"
           :class="{ 'CalendarItem__content--current' : isToday }"
           @click="showCreateEventModal = true"
         >
-          {{ day }}
+          {{ dayElement.dayNumber }}
         </span>
         <template
           #content="{ close }"
         >
           <EventCreate
             v-if="showCreateEventModal"
-            :date-details="momentDate"
+            :date-details="dayElement.momentDate"
             @close-popover="close; showCreateEventModal = false"
           />
         </template>
@@ -60,7 +60,7 @@
         </Popper>
       </div>
       <span 
-        v-if="events.length > 3"
+        v-if="dayElement.events.length > 3"
         role="button" 
         class="CalendarItem__events--bottom"
       >
@@ -68,14 +68,14 @@
           :disable-click-away="true"
           class="CalendarItem__popover"
         >
-          <span v-tooltip:bottom.tooltip="`Show ${events.length - 3} more`">
+          <span v-tooltip:bottom.tooltip="`Show ${dayElement.events.length - 3} more`">
             ...
           </span>
           <template
             #content="{ close }"
           >
             <EventList
-              :events="events"
+              :events="dayElement.events"
               @close-popover="close"
             />
           </template>
@@ -86,9 +86,9 @@
 </template>
 
 <script setup lang="ts">
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { computed, PropType, ref } from 'vue';
-import { Event } from '../../../../types/types';
+import { Event, SingleDay } from '../../../../types/types';
 import Popper from 'vue3-popper';
 import EventDetails from '../EventModalContents/EventDetails/EventDetails.vue';
 import EventCreate from '../EventModalContents/EventCreate/EventCreate.vue';
@@ -97,28 +97,16 @@ import EventList from '../EventModalContents/EventList/EventList.vue';
 defineEmits(['editEvent']);
 // eslint-disable-next-line no-undef
 const props = defineProps({
-  day: {
-    type: Number,
-    required: true,
-  },
-  isActive: {
-    type: Boolean,
-    required: true,
-  },
-  momentDate: {
-    type: Object as PropType<Moment>,
-    required: true,
-  },
-  events: {
-    type: Object as PropType<Array<Event>>,
-    required: true,
-  },
+    dayElement: {
+      type: Object as PropType<SingleDay>,
+      required: true,
+    },
   });
 
 const showCreateEventModal = ref(false);
 
 const getOnlyThreeEvents = computed(() => {
-  const eventsCopy: Array<Event> = props.events;
+  const eventsCopy: Array<Event> = props.dayElement.events;
   if (eventsCopy.length > 3) {
     return eventsCopy.slice(0, 3);
   }
@@ -127,7 +115,7 @@ const getOnlyThreeEvents = computed(() => {
 
 //isToday
 const isToday = computed(() => {
-  return moment(moment().format('YYYY-MM-DD')).isSame(props.momentDate.format('YYYY-MM-DD'));
+  return moment(moment().format('YYYY-MM-DD')).isSame(props.dayElement.momentDate.format('YYYY-MM-DD'));
 });
 
 const startDrag = (event: DragEvent, eventUuid: string) => {
