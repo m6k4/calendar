@@ -9,6 +9,7 @@
     "lint:script": "eslint --ext .ts,vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "element-plus": "^2.2.6",
     "font-awesome": "^4.7.0",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.29.3",
